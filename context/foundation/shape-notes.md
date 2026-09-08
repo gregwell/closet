@@ -3,6 +3,9 @@ project: "Closet App"
 context_type: greenfield
 created: 2026-09-04
 updated: 2026-09-08
+product_type: web-app
+target_scale:
+  users: small
 timeline_budget:
   mvp_weeks: 1
   hard_deadline: "2026-09-14"
