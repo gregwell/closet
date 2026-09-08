@@ -90,6 +90,19 @@ Heads-up (separate from recency): local Node is `v20.19.4`; several packages in 
 
 3 findings, log-only per policy — `@babel/core` among them (arbitrary file read via `sourceMappingURL`, dev-time only). Full detail via `npm audit`.
 
+## Follow-up (2026-09-08, same day)
+
+Node upgraded to `v22.14.0` via `nvm install && nvm use` (matches `.nvmrc`), `node_modules/` reinstalled cleanly under the correct version — no more `EBADENGINE` warnings.
+
+Ran `npm audit fix` (no `--force`): **25 → 4 findings** (1 low, 1 moderate, 2 high remaining):
+
+- `@astrojs/cloudflare` — moderate, direct.
+- `astro` — high, direct, `<=7.0.9`.
+- `esbuild` — low, transitive, `0.27.3-0.28.0` — "arbitrary file read when running the dev server **on Windows**". Development machine is macOS; risk does not apply.
+- `sharp` — high, transitive, `<0.35.0` — inherited libvips CVEs. Project has no FR involving image upload/processing of untrusted input; `sharp` is only present as Astro's default static-asset image optimizer.
+
+Fixing the remaining 2 high findings requires `npm audit fix --force`, which would bump **Astro 6.3.1 → 7.3.1 (breaking change)**. Decision: **deferred, accepted risk** — forcing a major-version bump before any project code exists trades a low real-world exposure (Windows-only dev-server bug; no untrusted image processing in scope) for the cost and time risk of absorbing breaking changes in a pinned, agent-friendly starter. Revisit if `has_ai`/image-upload scope changes, or opportunistically once `astro@7` gets wider adoption in the training-data-recency sense the tech-stack-selector cares about.
+
 ## Hints recorded but not acted on
 
 | Hint                       | Value                              |
@@ -113,7 +126,6 @@ Heads-up (separate from recency): local Node is `v20.19.4`; several packages in 
 Next: a future skill will set up agent context (CLAUDE.md, AGENTS.md). For now, your project is scaffolded and verified — happy hacking.
 
 Useful manual steps in the meantime:
-- Upgrade local Node to ≥22 before running `npm run dev` / `build` (several packages declare this as a hard `engines` requirement).
+- ~~Upgrade local Node to ≥22~~ — done (`v22.14.0` via nvm, see Follow-up above).
 - Review `CLAUDE.md.scaffold` and decide what (if anything) to merge into the existing `CLAUDE.md`.
-- Run `npm audit fix` and re-check — all 25 findings report a fix available.
-- Address the remaining audit findings per your risk tolerance; the full breakdown is in this log.
+- ~~Run `npm audit fix`~~ — done, 25 → 4 findings (see Follow-up above). Remaining 2 high findings need `astro@7` (breaking); deferred as accepted risk.
