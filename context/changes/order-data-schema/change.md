@@ -1,7 +1,7 @@
 ---
 change_id: order-data-schema
 title: Add order/product data schema with per-user RLS
-status: implemented
+status: impl_reviewed
 created: 2026-09-09
 updated: 2026-09-09
 archived_at: null
