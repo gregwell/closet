@@ -235,5 +235,5 @@ This is the first migration; there is no existing data to migrate or preserve.
 
 #### Automated
 
-- [x] 3.1 `npm run build` passes (type check)
-- [x] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run build` passes (type check) — 5479cd3
+- [x] 3.2 `npm run lint` passes — 5479cd3
