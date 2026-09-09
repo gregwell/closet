@@ -226,14 +226,14 @@ This is the first migration; there is no existing data to migrate or preserve.
 
 #### Manual
 
-- [x] 2.1 Both tables visible in Supabase Studio
-- [x] 2.2 Insert as owning user succeeds
-- [x] 2.3 Cross-user read returns zero rows (RLS actually enforced)
-- [x] 2.4 Invalid status value rejected by CHECK constraint
+- [x] 2.1 Both tables visible in Supabase Studio — 35db6c0
+- [x] 2.2 Insert as owning user succeeds — 35db6c0
+- [x] 2.3 Cross-user read returns zero rows (RLS actually enforced) — 35db6c0
+- [x] 2.4 Invalid status value rejected by CHECK constraint — 35db6c0
 
 ### Phase 3: Shared TypeScript types
 
 #### Automated
 
-- [ ] 3.1 `npm run build` passes (type check)
-- [ ] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run build` passes (type check)
+- [x] 3.2 `npm run lint` passes
