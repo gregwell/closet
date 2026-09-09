@@ -215,21 +215,21 @@ This is the first migration; there is no existing data to migrate or preserve.
 
 #### Automated
 
-- [x] 1.1 `npm run build` passes with real env vars in place
+- [x] 1.1 `npm run build` passes with real env vars in place — 5045378
 
 #### Manual
 
-- [x] 1.2 Signup against the new cloud project succeeds
-- [x] 1.3 New user visible in Supabase dashboard
+- [x] 1.2 Signup against the new cloud project succeeds — 5045378
+- [x] 1.3 New user visible in Supabase dashboard — 5045378
 
 ### Phase 2: Migration — `orders` and `order_items` tables with RLS
 
 #### Manual
 
-- [ ] 2.1 Both tables visible in Supabase Studio
-- [ ] 2.2 Insert as owning user succeeds
-- [ ] 2.3 Cross-user read returns zero rows (RLS actually enforced)
-- [ ] 2.4 Invalid status value rejected by CHECK constraint
+- [x] 2.1 Both tables visible in Supabase Studio
+- [x] 2.2 Insert as owning user succeeds
+- [x] 2.3 Cross-user read returns zero rows (RLS actually enforced)
+- [x] 2.4 Invalid status value rejected by CHECK constraint
 
 ### Phase 3: Shared TypeScript types
 
