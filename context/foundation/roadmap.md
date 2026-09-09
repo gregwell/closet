@@ -41,7 +41,7 @@ Ktoś zamawiający ubrania online w zamówieniach z wieloma produktami traci ori
 
 | ID   | Change ID                  | Outcome (user can …)                                                              | Prerequisites | PRD refs                  | Status   |
 | ---- | --------------------------- | ----------------------------------------------------------------------------------- | -------------- | -------------------------- | -------- |
-| F-01 | order-data-schema           | (foundation) schemat danych zamówień/produktów istnieje z RLS per właściciel        | —              | NFR (prywatność), Access Control | planning |
+| F-01 | order-data-schema           | (foundation) schemat danych zamówień/produktów istnieje z RLS per właściciel        | —              | NFR (prywatność), Access Control | in-progress |
 | S-01 | user-login                  | loguje się i trafia do swojej przestrzeni w appce                                    | —              | FR-001                     | ready    |
 | S-02 | order-status-computation    | tworzy zamówienie z produktami i widzi status wyliczany automatycznie przy decyzjach | F-01           | FR-002, FR-005, FR-006, US-01 | proposed |
 | S-03 | mark-return-shipped         | oznacza produkt jako "zwrot wysłany" (z możliwością cofnięcia)                       | S-02           | FR-007                     | proposed |
@@ -80,7 +80,7 @@ Stan repo na `2026-09-09` (auto-zbadane w sesji bootstrapu + potwierdzone przez 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Bez RLS od początku, domklejenie prywatności później ryzykowałoby wyciek danych między kontami, gdyby kiedyś doszedł drugi użytkownik; minimalny schemat teraz unika przeprojektowania, zanim pierwszy slice zweryfikuje, że kształt danych jest właściwy.
-- **Status:** planning
+- **Status:** in-progress
 
 ## Slices
 
