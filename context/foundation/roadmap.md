@@ -43,7 +43,7 @@ Ktoś zamawiający ubrania online w zamówieniach z wieloma produktami traci ori
 | ---- | --------------------------- | ----------------------------------------------------------------------------------- | -------------- | -------------------------- | -------- |
 | F-01 | order-data-schema           | (foundation) schemat danych zamówień/produktów istnieje z RLS per właściciel        | —              | NFR (prywatność), Access Control | done |
 | S-01 | user-login                  | loguje się i trafia do swojej przestrzeni w appce                                    | —              | FR-001                     | ready    |
-| S-02 | order-status-computation    | tworzy zamówienie z produktami i widzi status wyliczany automatycznie przy decyzjach | F-01           | FR-002, FR-005, FR-006, US-01 | planning |
+| S-02 | order-status-computation    | tworzy zamówienie z produktami i widzi status wyliczany automatycznie przy decyzjach | F-01           | FR-002, FR-005, FR-006, US-01 | in-progress |
 | S-03 | mark-return-shipped         | oznacza produkt jako "zwrot wysłany" (z możliwością cofnięcia)                       | S-02           | FR-007                     | proposed |
 | S-04 | delete-order                | usuwa zamówienie, którego już nie chce śledzić                                       | S-02           | FR-004                     | proposed |
 
@@ -106,7 +106,7 @@ Stan repo na `2026-09-09` (auto-zbadane w sesji bootstrapu + potwierdzone przez 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** To jest główna hipoteza całego produktu — jeśli reguła wyliczania statusu nie sprawdzi się w realnym użyciu, kolejne slice'y (wysłanie zwrotu, usuwanie) też wymagałyby przeróbki, więc zweryfikowanie tego najpierw jest najbardziej dźwigniowym ruchem pod `speed`.
-- **Status:** planning
+- **Status:** in-progress
 
 ### S-03: Użytkownik oznacza produkt jako wysłany do zwrotu
 

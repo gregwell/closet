@@ -30,3 +30,6 @@ export interface OrderItem {
   createdAt: string;
   updatedAt: string;
 }
+
+// Computed, never stored — see src/lib/services/order-status.ts
+export type OrderStatus = "awaiting_delivery" | "awaiting_decision" | "ready_for_return" | "completed";

@@ -285,9 +285,9 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Automated
 
-- [ ] 1.1 `npm run build` passes
-- [ ] 1.2 `npm run lint` passes
-- [ ] 1.3 `npm run test` passes
+- [x] 1.1 `npm run build` passes
+- [x] 1.2 `npm run lint` passes
+- [x] 1.3 `npm run test` passes
 
 ### Phase 2: Data access — src/lib/services/orders.ts
 
