@@ -314,14 +314,14 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Automated
 
-- [ ] 4.1 `npm run build` passes
-- [ ] 4.2 `npm run lint` passes
+- [x] 4.1 `npm run build` passes — 34690dc
+- [x] 4.2 `npm run lint` passes — 34690dc
 
 #### Manual
 
-- [x] 4.3 Two awaiting-decision products show order status "awaiting decision"
-- [x] 4.4 Setting kept + to-be-returned flips order status to "ready for return"
-- [x] 4.5 All-decided (kept/return_shipped only) flips order status to "completed"
-- [x] 4.6 Reopening kept → to_be_returned moves a completed-looking order back to "ready for return"
-- [x] 4.7 Return shipped, then reversed back to to_be_returned, both work
-- [x] 4.8 Invalid transition is rejected, not silently applied
+- [x] 4.3 Two awaiting-decision products show order status "awaiting decision" — 34690dc
+- [x] 4.4 Setting kept + to-be-returned flips order status to "ready for return" — 34690dc
+- [x] 4.5 All-decided (kept/return_shipped only) flips order status to "completed" — 34690dc
+- [x] 4.6 Reopening kept → to_be_returned moves a completed-looking order back to "ready for return" — 34690dc
+- [x] 4.7 Return shipped, then reversed back to to_be_returned, both work — 34690dc
+- [x] 4.8 Invalid transition is rejected, not silently applied — 34690dc

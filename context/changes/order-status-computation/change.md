@@ -1,7 +1,7 @@
 ---
 change_id: order-status-computation
 title: Create order and see status computed automatically
-status: implementing
+status: implemented
 created: 2026-09-10
 updated: 2026-09-10
 archived_at: null
