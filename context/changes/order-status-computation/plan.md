@@ -285,16 +285,16 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Automated
 
-- [x] 1.1 `npm run build` passes
-- [x] 1.2 `npm run lint` passes
-- [x] 1.3 `npm run test` passes
+- [x] 1.1 `npm run build` passes — 1701f76
+- [x] 1.2 `npm run lint` passes — 1701f76
+- [x] 1.3 `npm run test` passes — 1701f76
 
 ### Phase 2: Data access — src/lib/services/orders.ts
 
 #### Automated
 
-- [ ] 2.1 `npm run build` passes
-- [ ] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run build` passes
+- [x] 2.2 `npm run lint` passes
 
 ### Phase 3: Create-order form — /orders/new
 
