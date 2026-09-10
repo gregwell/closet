@@ -24,3 +24,9 @@ const ALLOWED_TRANSITIONS: Record<ProductStatus, ProductStatus[]> = {
 export function isValidTransition(from: ProductStatus, to: ProductStatus): boolean {
   return ALLOWED_TRANSITIONS[from].includes(to);
 }
+
+// Used by the orders list (Phase 4) to render only the status actions that
+// are actually legal from an item's current status.
+export function getAvailableTransitions(from: ProductStatus): ProductStatus[] {
+  return ALLOWED_TRANSITIONS[from];
+}

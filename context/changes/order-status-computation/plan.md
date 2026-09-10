@@ -300,15 +300,15 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Automated
 
-- [x] 3.1 `npm run build` passes
-- [x] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run build` passes — 8aae711
+- [x] 3.2 `npm run lint` passes — 8aae711
 
 #### Manual
 
-- [x] 3.3 One-product order creation works end to end
-- [x] 3.4 Three-product order creation (via Add product) works end to end
-- [x] 3.5 Remove row works before submit
-- [x] 3.6 Missing required field redirects with error, no partial order created
+- [x] 3.3 One-product order creation works end to end — 8aae711
+- [x] 3.4 Three-product order creation (via Add product) works end to end — 8aae711
+- [x] 3.5 Remove row works before submit — 8aae711
+- [x] 3.6 Missing required field redirects with error, no partial order created — 8aae711
 
 ### Phase 4: Orders list with status actions — /orders
 
@@ -319,9 +319,9 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Manual
 
-- [ ] 4.3 Two awaiting-decision products show order status "awaiting decision"
-- [ ] 4.4 Setting kept + to-be-returned flips order status to "ready for return"
-- [ ] 4.5 All-decided (kept/return_shipped only) flips order status to "completed"
-- [ ] 4.6 Reopening kept → to_be_returned moves a completed-looking order back to "ready for return"
-- [ ] 4.7 Return shipped, then reversed back to to_be_returned, both work
-- [ ] 4.8 Invalid transition is rejected, not silently applied
+- [x] 4.3 Two awaiting-decision products show order status "awaiting decision"
+- [x] 4.4 Setting kept + to-be-returned flips order status to "ready for return"
+- [x] 4.5 All-decided (kept/return_shipped only) flips order status to "completed"
+- [x] 4.6 Reopening kept → to_be_returned moves a completed-looking order back to "ready for return"
+- [x] 4.7 Return shipped, then reversed back to to_be_returned, both work
+- [x] 4.8 Invalid transition is rejected, not silently applied

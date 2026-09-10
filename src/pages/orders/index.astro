@@ -1,0 +1,101 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { createClient } from "@/lib/supabase";
+import { getOrdersWithItems } from "@/lib/services/orders";
+import OrderCard from "@/components/orders/OrderCard.astro";
+import type { ProductStatus, OrderStatus } from "@/types";
+
+const error = Astro.url.searchParams.get("error");
+
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const ordersWithItems = supabase ? await getOrdersWithItems(supabase) : [];
+
+const activeOrders = ordersWithItems.filter(({ status }) => status !== "completed");
+const completedOrders = ordersWithItems.filter(({ status }) => status === "completed");
+
+const STATUS_LABELS: Record<ProductStatus, string> = {
+  in_transit: "In transit",
+  awaiting_decision: "Awaiting decision",
+  kept: "Kept",
+  to_be_returned: "To be returned",
+  return_shipped: "Return shipped",
+  return_received: "Return received",
+};
+
+const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
+  awaiting_delivery: "Awaiting delivery",
+  awaiting_decision: "Awaiting decision",
+  ready_for_return: "Ready for return",
+  completed: "Completed",
+};
+---
+
+<Layout title="Orders">
+  <div class="bg-cosmic min-h-screen p-4">
+    <div class="mx-auto w-full max-w-2xl">
+      <div class="mb-6 flex items-center justify-between">
+        <h1 class="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">
+          Orders
+        </h1>
+        <a
+          href="/orders/new"
+          class="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
+        >
+          + New order
+        </a>
+      </div>
+
+      {
+        error && (
+          <p class="mb-4 rounded-lg border border-red-500/30 bg-red-900/30 px-3 py-2 text-sm text-red-300">{error}</p>
+        )
+      }
+
+      {
+        ordersWithItems.length === 0 ? (
+          <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
+            <p class="text-blue-100/70">You don't have any orders yet.</p>
+            <a href="/orders/new" class="mt-2 inline-block text-purple-300 hover:underline">
+              Add your first order
+            </a>
+          </div>
+        ) : (
+          <div class="space-y-8">
+            {activeOrders.length > 0 && (
+              <div class="space-y-4">
+                <h2 class="text-sm font-medium tracking-wide text-blue-100/60 uppercase">
+                  Active ({activeOrders.length})
+                </h2>
+                {activeOrders.map(({ order, items, status }) => (
+                  <OrderCard
+                    order={order}
+                    items={items}
+                    status={status}
+                    statusLabels={STATUS_LABELS}
+                    orderStatusLabels={ORDER_STATUS_LABELS}
+                  />
+                ))}
+              </div>
+            )}
+            {completedOrders.length > 0 && (
+              <div class="space-y-4">
+                <h2 class="text-sm font-medium tracking-wide text-blue-100/60 uppercase">
+                  Completed ({completedOrders.length})
+                </h2>
+                {completedOrders.map(({ order, items, status }) => (
+                  <OrderCard
+                    order={order}
+                    items={items}
+                    status={status}
+                    statusLabels={STATUS_LABELS}
+                    orderStatusLabels={ORDER_STATUS_LABELS}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</Layout>

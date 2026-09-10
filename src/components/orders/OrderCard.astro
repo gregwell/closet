@@ -1,0 +1,50 @@
+---
+import { getAvailableTransitions } from "@/lib/services/order-status";
+import type { Order, OrderItem, OrderStatus, ProductStatus } from "@/types";
+
+interface Props {
+  order: Order;
+  items: OrderItem[];
+  status: OrderStatus;
+  statusLabels: Record<ProductStatus, string>;
+  orderStatusLabels: Record<OrderStatus, string>;
+}
+
+const { order, items, status, statusLabels, orderStatusLabels } = Astro.props;
+---
+
+<div class="rounded-2xl border border-white/10 bg-white/10 p-6 text-white backdrop-blur-xl">
+  <div class="mb-3 flex items-center justify-between">
+    <div>
+      <p class="font-semibold">{order.store}</p>
+      <p class="text-xs text-blue-100/50">{order.orderDate}</p>
+    </div>
+    <span class="rounded-full border border-white/20 px-3 py-1 text-xs">{orderStatusLabels[status]}</span>
+  </div>
+  <div class="space-y-2">
+    {
+      items.map((item) => (
+        <div class="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm">
+          <div>
+            <span class="font-medium">{item.brand}</span> · {item.type} · {(item.priceCents / 100).toFixed(2)}
+            <span class="ml-2 text-xs text-blue-100/50">({statusLabels[item.status]})</span>
+          </div>
+          <div class="flex gap-2">
+            {getAvailableTransitions(item.status).map((next) => (
+              <form method="POST" action="/api/orders/items/status">
+                <input type="hidden" name="itemId" value={item.id} />
+                <input type="hidden" name="newStatus" value={next} />
+                <button
+                  type="submit"
+                  class="rounded-md border border-white/20 px-2 py-1 text-xs transition-colors hover:bg-white/10"
+                >
+                  {statusLabels[next]}
+                </button>
+              </form>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
