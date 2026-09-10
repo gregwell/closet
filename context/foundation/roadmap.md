@@ -3,7 +3,7 @@ project: "Closet App"
 version: 1
 status: draft
 created: 2026-09-09
-updated: 2026-09-10
+updated: 2026-09-11
 prd_version: 1
 main_goal: speed
 top_blocker: time
@@ -43,7 +43,7 @@ Ktoś zamawiający ubrania online w zamówieniach z wieloma produktami traci ori
 | ---- | --------------------------- | ----------------------------------------------------------------------------------- | -------------- | -------------------------- | -------- |
 | F-01 | order-data-schema           | (foundation) schemat danych zamówień/produktów istnieje z RLS per właściciel        | —              | NFR (prywatność), Access Control | done |
 | S-01 | user-login                  | loguje się i trafia do swojej przestrzeni w appce                                    | —              | FR-001                     | ready    |
-| S-02 | order-status-computation    | tworzy zamówienie z produktami i widzi status wyliczany automatycznie przy decyzjach | F-01           | FR-002, FR-005, FR-006, US-01 | in-progress |
+| S-02 | order-status-computation    | tworzy zamówienie z produktami i widzi status wyliczany automatycznie przy decyzjach | F-01           | FR-002, FR-005, FR-006, US-01 | done |
 | S-03 | mark-return-shipped         | oznacza produkt jako "zwrot wysłany" (z możliwością cofnięcia)                       | S-02           | FR-007                     | proposed |
 | S-04 | delete-order                | usuwa zamówienie, którego już nie chce śledzić                                       | S-02           | FR-004                     | proposed |
 
@@ -106,7 +106,7 @@ Stan repo na `2026-09-09` (auto-zbadane w sesji bootstrapu + potwierdzone przez 
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** To jest główna hipoteza całego produktu — jeśli reguła wyliczania statusu nie sprawdzi się w realnym użyciu, kolejne slice'y (wysłanie zwrotu, usuwanie) też wymagałyby przeróbki, więc zweryfikowanie tego najpierw jest najbardziej dźwigniowym ruchem pod `speed`.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-03: Użytkownik oznacza produkt jako wysłany do zwrotu
 
@@ -161,3 +161,4 @@ Brak — PRD nie ma otwartych pytań, a wywiad nie ujawnił nowych kwestii przek
 ## Done
 
 - **F-01: (foundation) schemat danych zamówień/produktów istnieje z RLS per właściciel** — Archived 2026-09-09 → `context/archive/2026-09-09-order-data-schema/`. Lesson: —.
+- **S-02: Użytkownik tworzy zamówienie i widzi status wyliczany automatycznie** — Archived 2026-09-10 → `context/archive/2026-09-10-order-status-computation/`. Lesson: impl-review znalazł 7 findingów (F1-F7), 6 naprawionych (brak jawnej kontroli własności w `updateItemStatus`, `/api/orders` poza `PROTECTED_ROUTES`, zerowy-item order renderujący się jako "completed", walidacja ceny/daty w zod), 1 świadomie odrzucony (odchylenie od planu w strukturze komponentu formularza, uzasadnione dopasowaniem do istniejącego wzorca).
