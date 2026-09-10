@@ -4,7 +4,7 @@ Closet App — an Astro 6 SSR app (React 19 islands, Tailwind 4, Supabase auth) 
 
 ## Hard rules
 
-- API routes (`src/pages/api/**`) must export `const prerender = false` and use uppercase `GET`/`POST` handlers; validate input with zod.
+- API routes (`src/pages/api/**`) use uppercase `GET`/`POST` handlers and validate input with zod. `const prerender = false` is not needed on individual routes — `output: "server"` in `astro.config.mjs` already makes every route server-rendered by default.
 - New Supabase tables always enable RLS with granular per-operation, per-role policies. Migrations live in `supabase/migrations/` named `YYYYMMDDHHmmss_short_description.sql`.
 - Merge Tailwind classes via `cn()` from `@/lib/utils` (clsx + tailwind-merge) — never concatenate class strings manually.
 - No Next.js directives (`"use client"`, etc.) in React components; extract hooks to `src/components/hooks/`.

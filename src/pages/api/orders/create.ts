@@ -6,7 +6,12 @@ import { createOrder } from "@/lib/services/orders";
 const itemSchema = z.object({
   brand: z.string().trim().min(1, "Brand is required"),
   type: z.string().trim().min(1, "Type is required"),
-  priceCents: z.coerce.number().int().min(0, "Price cannot be negative"),
+  priceCents: z
+    .string()
+    .trim()
+    .regex(/^\d+$/, "Price is required and must be a whole number of cents")
+    .transform(Number)
+    .pipe(z.number().int().min(0, "Price cannot be negative")),
   description: z
     .string()
     .trim()
@@ -27,7 +32,7 @@ const itemSchema = z.object({
 
 const orderSchema = z.object({
   store: z.string().trim().min(1, "Store is required"),
-  orderDate: z.string().trim().min(1, "Order date is required"),
+  orderDate: z.iso.date("Enter a valid order date"),
   items: z.array(itemSchema).min(1, "Add at least one product"),
 });
 

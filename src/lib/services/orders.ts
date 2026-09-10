@@ -73,14 +73,19 @@ export async function getOrdersWithItems(supabase: SupabaseClient<Database>): Pr
     return [];
   }
 
-  const results = (data as OrderRow[]).map((row) => {
-    const items = (row.order_items ?? []).map(mapOrderItemRow);
-    return {
-      order: mapOrderRow(row),
-      items,
-      status: computeOrderStatus(items.map((item) => item.status)),
-    };
-  });
+  const results = (data as OrderRow[])
+    .map((row) => {
+      const items = (row.order_items ?? []).map(mapOrderItemRow);
+      return {
+        order: mapOrderRow(row),
+        items,
+        status: computeOrderStatus(items.map((item) => item.status)),
+      };
+    })
+    // A zero-item order is a partial-failure artifact (createOrder isn't
+    // transactional — see its comment), not a real order; hide it rather
+    // than letting it silently render as "completed".
+    .filter((result) => result.items.length > 0);
 
   // Unresolved orders surface before finished ones (FR-005).
   return results.sort((a, b) => Number(a.status === "completed") - Number(b.status === "completed"));
@@ -148,14 +153,33 @@ export async function updateItemStatus(
   itemId: string,
   newStatus: ProductStatus,
 ): Promise<{ error: string | null }> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "Not authenticated" };
+  }
+
   const { data: current, error: fetchError } = await supabase
     .from("order_items")
-    .select("status")
+    .select("status, order_id")
     .eq("id", itemId)
     .single();
 
   if (fetchError || !current) {
     return { error: fetchError?.message ?? "Item not found" };
+  }
+
+  // Explicit ownership check, not just RLS: RLS is defense in depth, not the
+  // only line of defense (mirrors createOrder's explicit auth check above).
+  const { data: order, error: orderFetchError } = await supabase
+    .from("orders")
+    .select("user_id")
+    .eq("id", current.order_id)
+    .single();
+
+  if (orderFetchError || !order || order.user_id !== user.id) {
+    return { error: "Not authorized to modify this item" };
   }
 
   if (!isValidTransition(current.status, newStatus)) {
