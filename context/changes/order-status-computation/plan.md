@@ -293,22 +293,22 @@ No schema changes in this plan — F-01's schema is used as-is.
 
 #### Automated
 
-- [x] 2.1 `npm run build` passes
-- [x] 2.2 `npm run lint` passes
+- [x] 2.1 `npm run build` passes — 23a25cd
+- [x] 2.2 `npm run lint` passes — 23a25cd
 
 ### Phase 3: Create-order form — /orders/new
 
 #### Automated
 
-- [ ] 3.1 `npm run build` passes
-- [ ] 3.2 `npm run lint` passes
+- [x] 3.1 `npm run build` passes
+- [x] 3.2 `npm run lint` passes
 
 #### Manual
 
-- [ ] 3.3 One-product order creation works end to end
-- [ ] 3.4 Three-product order creation (via Add product) works end to end
-- [ ] 3.5 Remove row works before submit
-- [ ] 3.6 Missing required field redirects with error, no partial order created
+- [x] 3.3 One-product order creation works end to end
+- [x] 3.4 Three-product order creation (via Add product) works end to end
+- [x] 3.5 Remove row works before submit
+- [x] 3.6 Missing required field redirects with error, no partial order created
 
 ### Phase 4: Orders list with status actions — /orders
 
