@@ -142,25 +142,25 @@ None — no schema change; RLS delete policies and the `order_items` cascade FK 
 
 #### Automated
 
-- [x] 1.1 Build passes
-- [x] 1.2 Lint passes
-- [x] 1.3 Existing unit tests still pass (13/13)
+- [x] 1.1 Build passes — 10f0450
+- [x] 1.2 Lint passes — 10f0450
+- [x] 1.3 Existing unit tests still pass (13/13) — 10f0450
 
 #### Manual
 
-- [x] 1.4 Deleting an owned order removes it + items, redirects to /orders
+- [x] 1.4 Deleting an owned order removes it + items, redirects to /orders — 10f0450
 - [ ] 1.5 Deleting a nonexistent order id shows an error, not a 500
 
 ### Phase 2: Delete button on OrderCard with confirmation
 
 #### Automated
 
-- [x] 2.1 Build passes
-- [x] 2.2 Lint passes
+- [x] 2.1 Build passes — 10f0450
+- [x] 2.2 Lint passes — 10f0450
 
 #### Manual
 
-- [x] 2.3 Delete button visible on Active and Completed cards
-- [x] 2.4 Confirm dialog names the action as irreversible
-- [x] 2.5 Cancelling leaves the order untouched
-- [x] 2.6 Confirming deletes the order and its products from the list
+- [x] 2.3 Delete button visible on Active and Completed cards — 10f0450
+- [x] 2.4 Confirm dialog names the action as irreversible — 10f0450
+- [x] 2.5 Cancelling leaves the order untouched — 10f0450
+- [x] 2.6 Confirming deletes the order and its products from the list — 10f0450
