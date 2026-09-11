@@ -1,8 +1,19 @@
-# 10x Astro Starter
+# Closet App
 
-![](./public/template.png)
+A personal order tracker for online clothing orders that arrive as multiple products at once. Replaces a manual Excel spreadsheet: instead of updating "order status" by hand every time you decide to keep or return one of the products in it, the order's status is **always computed automatically** from the status of its individual products — that's the one rule this app exists to get right.
 
-A modern, opinionated starter template for building fast, accessible web applications.
+## Why
+
+Ordering several items in one online order and deciding per-item what to keep and what to return is easy to lose track of in a spreadsheet: nothing forces the "order row" to reflect the current state of every product in it, especially when a decision changes later (e.g. "keeping it" today, "actually returning it" next week). This app derives the order's status from its products every time, so it can never silently drift out of sync — see `src/lib/services/order-status.ts` and `context/foundation/test-plan.md` for how that rule is defined and tested.
+
+## Core Domain
+
+- An **order** (store, order date) has one or more **products** (brand, type, price, description, category).
+- Each product has a status: `in_transit → awaiting_decision → kept | to_be_returned → return_shipped → return_received` (with `to_be_returned ⇄ return_shipped` reversible, since a shipped return can be reversed before it's received).
+- The **order's** status is never stored — it's computed from its products' statuses by priority (`in_transit` > `awaiting_decision` > `to_be_returned` > else `completed`), so the order automatically shows as needing attention whenever any product in it does.
+- Full CRUD on orders (create, list with computed status, update product status, delete) is scoped per signed-in user via Supabase Row-Level Security.
+
+See `context/foundation/prd.md` for the full product requirements and `context/foundation/roadmap.md` for delivery status.
 
 ## Tech Stack
 
@@ -23,8 +34,8 @@ A modern, opinionated starter template for building fast, accessible web applica
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+git clone https://github.com/gregwell/closet.git
+cd closet
 ```
 
 2. Install dependencies:
@@ -55,6 +66,7 @@ npm run dev
 - `npm run lint` - Run ESLint with type-checked rules
 - `npm run lint:fix` - Auto-fix ESLint issues
 - `npm run format` - Run Prettier
+- `npm test` - Run the unit test suite (see `context/foundation/test-plan.md` for what each test covers and why)
 
 ## Project Structure
 
@@ -63,9 +75,14 @@ npm run dev
 ├── src/
 │ ├── layouts/ # Astro layouts
 │ ├── pages/ # Astro pages
-│ │ └── api/ # API endpoints
+│ │ ├── api/ # API endpoints (auth, orders)
+│ │ ├── auth/ # Sign-in/sign-up pages
+│ │ └── orders/ # Order list + create-order pages
 │ ├── components/ # UI components (Astro & React)
-│ └── assets/ # Static assets
+│ ├── lib/services/ # Business logic + data access (order-status, orders)
+│ └── types.ts # Shared domain types
+├── supabase/migrations/ # RLS-scoped orders/order_items schema
+├── context/foundation/ # PRD, roadmap, test plan
 ├── public/ # Public assets
 ├── wrangler.jsonc # Cloudflare Workers config
 ```
@@ -111,7 +128,7 @@ npx supabase stop
 
 The local Studio UI is available at `http://localhost:54323`.
 
-No database tables or migrations are required — this project uses Supabase Auth's built-in `auth.users` table only.
+Running `npx supabase start` applies the migrations in `supabase/migrations/`, which create the `orders` and `order_items` tables with Row-Level Security scoping every row to its owning user.
 
 ### Using a cloud Supabase project instead
 
@@ -145,8 +162,10 @@ Users can then sign in immediately after sign-up without clicking a confirmation
 | `/auth/signup`        | Email/password sign-up form                                             |
 | `/auth/confirm-email` | Post-signup "check your inbox" page                                     |
 | `/dashboard`          | Example protected page (redirects to `/auth/signin` if unauthenticated) |
+| `/orders`             | List of the signed-in user's orders, grouped by computed status         |
+| `/orders/new`         | Create an order with one or more products                               |
 
-Route protection is handled in `src/middleware.ts`. Add paths to the `PROTECTED_ROUTES` array there to require authentication.
+Route protection is handled in `src/middleware.ts`. Add paths to the `PROTECTED_ROUTES` array there to require authentication (currently `/dashboard`, `/orders`, `/api/orders`).
 
 ## Deployment
 
