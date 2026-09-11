@@ -20,7 +20,7 @@ const { order, items, status, statusLabels, orderStatusLabels } = Astro.props;
       <p class="text-xs text-blue-100/50">{order.orderDate}</p>
     </div>
     <div class="flex items-center gap-2">
-      <span class="rounded-full border border-white/20 px-3 py-1 text-xs">{orderStatusLabels[status]}</span>
+      <span class="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium">{orderStatusLabels[status]}</span>
       <form
         method="POST"
         action="/api/orders/delete"
@@ -39,25 +39,32 @@ const { order, items, status, statusLabels, orderStatusLabels } = Astro.props;
   <div class="space-y-2">
     {
       items.map((item) => (
-        <div class="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm">
-          <div>
-            <span class="font-medium">{item.brand}</span> · {item.type} · {(item.priceCents / 100).toFixed(2)}
-            <span class="ml-2 text-xs text-blue-100/50">({statusLabels[item.status]})</span>
+        <div class="rounded-lg bg-white/5 px-3 py-2 text-sm">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="font-medium">{item.brand}</span> · {item.type} · {(item.priceCents / 100).toFixed(2)}
+            </div>
+            <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-medium whitespace-nowrap">
+              {statusLabels[item.status]}
+            </span>
           </div>
-          <div class="flex gap-2">
-            {getAvailableTransitions(item.status).map((next) => (
-              <form method="POST" action="/api/orders/items/status">
-                <input type="hidden" name="itemId" value={item.id} />
-                <input type="hidden" name="newStatus" value={next} />
-                <button
-                  type="submit"
-                  class="rounded-md border border-white/20 px-2 py-1 text-xs transition-colors hover:bg-white/10"
-                >
-                  {statusLabels[next]}
-                </button>
-              </form>
-            ))}
-          </div>
+          {getAvailableTransitions(item.status).length > 0 && (
+            <div class="mt-2 flex flex-wrap items-center gap-2">
+              <span class="text-xs text-blue-100/40">Change to:</span>
+              {getAvailableTransitions(item.status).map((next) => (
+                <form method="POST" action="/api/orders/items/status">
+                  <input type="hidden" name="itemId" value={item.id} />
+                  <input type="hidden" name="newStatus" value={next} />
+                  <button
+                    type="submit"
+                    class="rounded-md border border-white/20 px-2 py-1 text-xs text-blue-100/70 transition-colors hover:bg-white/10 hover:text-white"
+                  >
+                    {statusLabels[next]}
+                  </button>
+                </form>
+              ))}
+            </div>
+          )}
         </div>
       ))
     }
