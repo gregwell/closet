@@ -194,3 +194,34 @@ export async function updateItemStatus(
 
   return { error: null };
 }
+
+export async function deleteOrder(
+  supabase: SupabaseClient<Database>,
+  orderId: string,
+): Promise<{ error: string | null }> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    return { error: "Not authenticated" };
+  }
+
+  const { data: order, error: fetchError } = await supabase.from("orders").select("user_id").eq("id", orderId).single();
+
+  if (fetchError || !order) {
+    return { error: fetchError?.message ?? "Order not found" };
+  }
+
+  if (order.user_id !== user.id) {
+    return { error: "Not authorized to delete this order" };
+  }
+
+  // order_items cascade automatically (on delete cascade FK, see F-01 migration).
+  const { error: deleteError } = await supabase.from("orders").delete().eq("id", orderId);
+
+  if (deleteError) {
+    return { error: deleteError.message };
+  }
+
+  return { error: null };
+}

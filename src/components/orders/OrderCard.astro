@@ -19,7 +19,22 @@ const { order, items, status, statusLabels, orderStatusLabels } = Astro.props;
       <p class="font-semibold">{order.store}</p>
       <p class="text-xs text-blue-100/50">{order.orderDate}</p>
     </div>
-    <span class="rounded-full border border-white/20 px-3 py-1 text-xs">{orderStatusLabels[status]}</span>
+    <div class="flex items-center gap-2">
+      <span class="rounded-full border border-white/20 px-3 py-1 text-xs">{orderStatusLabels[status]}</span>
+      <form
+        method="POST"
+        action="/api/orders/delete"
+        onsubmit="return confirm('Delete this order and all its products? This cannot be undone.')"
+      >
+        <input type="hidden" name="orderId" value={order.id} />
+        <button
+          type="submit"
+          class="rounded-md border border-red-500/30 px-2 py-1 text-xs text-red-300 transition-colors hover:bg-red-900/30"
+        >
+          Delete
+        </button>
+      </form>
+    </div>
   </div>
   <div class="space-y-2">
     {
